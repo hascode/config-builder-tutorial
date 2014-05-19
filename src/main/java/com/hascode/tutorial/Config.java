@@ -1,9 +1,9 @@
 package com.hascode.tutorial;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.tngtech.configbuilder.annotation.propertyloaderconfiguration.PropertiesFiles;
 import com.tngtech.configbuilder.annotation.typetransformer.TypeTransformer;
@@ -34,15 +34,26 @@ public class Config {
 
 	@TypeTransformers(StringToUserTransformer.class)
 	@CommandLineValue(shortOpt = "u", longOpt = "users", hasArg = true)
-	@PropertyValue("users.allowed")
 	private List<User> usersAllowed = new ArrayList<>();
+
+	@DefaultValue("burt,bart,allan")
+	@TypeTransformers(StringToUserTransformer.class)
+	@CommandLineValue(shortOpt = "f", longOpt = "forbid", hasArg = true)
+	private List<User> usersForbidden = new ArrayList<>();
+
+	public List<User> getUsersForbidden() {
+		return usersForbidden;
+	}
+
+	public void setUsersForbidden(List<User> usersForbidden) {
+		this.usersForbidden = usersForbidden;
+	}
 
 	public static class StringToUserTransformer extends
 			TypeTransformer<String, List<User>> {
 		@Override
 		public List<User> transform(final String input) {
-			List<String> names = Arrays.asList(input.split(","));
-			return names.stream().map(s -> new User(s))
+			return Stream.of(input.split(",")).map(s -> new User(s))
 					.collect(Collectors.toList());
 		}
 	}

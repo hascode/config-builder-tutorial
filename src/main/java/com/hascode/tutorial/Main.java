@@ -16,6 +16,9 @@ public class Main {
 		System.out.println("\tAllowed users\t:");
 		cnf.getUsersAllowed().forEach(
 				u -> System.out.println("\t\t\t" + u.getName()));
+		System.out.println("\tForbidden users\t:");
+		cnf.getUsersForbidden().forEach(
+				u -> System.out.println("\t\t\t" + u.getName()));
 	}
 
 }
