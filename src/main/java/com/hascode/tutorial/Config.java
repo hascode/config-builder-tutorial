@@ -1,9 +1,6 @@
 package com.hascode.tutorial;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import com.tngtech.configbuilder.annotation.propertyloaderconfiguration.PropertiesFiles;
 import com.tngtech.configbuilder.annotation.typetransformer.TypeTransformer;
@@ -32,12 +29,12 @@ public class Config {
 	@CommandLineValue(shortOpt = "s", longOpt = "silent", hasArg = false)
 	private boolean silent;
 
-	@TypeTransformers({StringToUserTransformer.class})
+	@TypeTransformers(StringToUserTransformer.class)
 	@CommandLineValue(shortOpt = "u", longOpt = "users", hasArg = true)
 	private List<User> usersAllowed;
 
 	@DefaultValue("burt,bart,allan")
-	@TypeTransformers({StringToUserTransformer.class})
+	@TypeTransformers(StringToUserTransformer.class)
 	@CommandLineValue(shortOpt = "f", longOpt = "forbid", hasArg = true)
 	private List<User> usersForbidden;
 
@@ -45,7 +42,7 @@ public class Config {
 		return usersForbidden;
 	}
 
-	public void setUsersForbidden(List<User> usersForbidden) {
+	public void setUsersForbidden(final List<User> usersForbidden) {
 		this.usersForbidden = usersForbidden;
 	}
 
