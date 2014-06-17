@@ -32,14 +32,14 @@ public class Config {
 	@CommandLineValue(shortOpt = "s", longOpt = "silent", hasArg = false)
 	private boolean silent;
 
-	@TypeTransformers(StringToUserTransformer.class)
+	@TypeTransformers({StringToUserTransformer.class})
 	@CommandLineValue(shortOpt = "u", longOpt = "users", hasArg = true)
-	private List<User> usersAllowed = new ArrayList<>();
+	private List<User> usersAllowed;
 
 	@DefaultValue("burt,bart,allan")
-	@TypeTransformers(StringToUserTransformer.class)
+	@TypeTransformers({StringToUserTransformer.class})
 	@CommandLineValue(shortOpt = "f", longOpt = "forbid", hasArg = true)
-	private List<User> usersForbidden = new ArrayList<>();
+	private List<User> usersForbidden;
 
 	public List<User> getUsersForbidden() {
 		return usersForbidden;
@@ -50,11 +50,10 @@ public class Config {
 	}
 
 	public static class StringToUserTransformer extends
-			TypeTransformer<String, List<User>> {
+			TypeTransformer<String, User> {
 		@Override
-		public List<User> transform(final String input) {
-			return Stream.of(input.split(",")).map(s -> new User(s))
-					.collect(Collectors.toList());
+		public User transform(final String input) {
+			return new User(input);
 		}
 	}
 
